@@ -1,0 +1,16 @@
+package br.com.alura.forum.hub.domain.topico;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record DadosAtualizacaoTopico(
+        @NotBlank
+        String titulo,
+        @NotBlank
+        String mensagem,
+        @NotNull
+        Long autor,
+        @NotNull
+        Long curso
+) {
+}
