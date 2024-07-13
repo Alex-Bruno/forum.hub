@@ -9,8 +9,6 @@ public record DadosAtualizacaoTopico(
         @NotBlank
         String mensagem,
         @NotNull
-        Long autor,
-        @NotNull
         Long curso
 ) {
 }

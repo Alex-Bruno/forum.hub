@@ -18,6 +18,9 @@ public class TopicoController {
     @Autowired
     private TopicoRepository repository;
 
+    @Autowired
+    private TopicoService service;
+
     @GetMapping
     public ResponseEntity<Page<DadosListagemTopico>> listar(@PageableDefault(size = 10, sort = {"titulo"}, direction = Sort.Direction.ASC) Pageable paginacao) {
         var page = repository.findByStatusNot(TopicoStatus.DELETADO, paginacao).map(DadosListagemTopico::new);
@@ -33,8 +36,7 @@ public class TopicoController {
     @PostMapping
     @Transactional
     public ResponseEntity<DadosDetalhamentoTopico> cadastrar(@RequestBody @Valid DadosCadastroTopico dados, UriComponentsBuilder uriBuilder) {
-        var topico = new Topico(dados);
-        repository.save(topico);
+        var topico = service.cadastrar(dados);
 
         var uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 
@@ -44,8 +46,7 @@ public class TopicoController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<DadosDetalhamentoTopico> atualizar(@PathVariable Long id, @RequestBody @Valid DadosAtualizacaoTopico dados) {
-        var topico = repository.getReferenceById(id);
-        topico.atualizarInformacoes(dados);
+        var topico = service.atualizar(id, dados);
         return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
     }
 

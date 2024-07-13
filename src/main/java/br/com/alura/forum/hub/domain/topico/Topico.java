@@ -3,10 +3,7 @@ package br.com.alura.forum.hub.domain.topico;
 import br.com.alura.forum.hub.domain.curso.Curso;
 import br.com.alura.forum.hub.domain.usuario.Usuario;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -31,10 +28,12 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private TopicoStatus status;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "autor_id")
     private Usuario autor;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "curso_id")
     private Curso curso;
@@ -48,8 +47,13 @@ public class Topico {
     }
 
     public void atualizarInformacoes(DadosAtualizacaoTopico dados) {
-        this.titulo = dados.titulo();
-        this.mensagem = dados.mensagem();
+        if (dados.titulo() != null) {
+            this.titulo = dados.titulo();
+        }
+
+        if (dados.mensagem() != null) {
+            this.mensagem = dados.mensagem();
+        }
     }
 
     public void excluir() {
