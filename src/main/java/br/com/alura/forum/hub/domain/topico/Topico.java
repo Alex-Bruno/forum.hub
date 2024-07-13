@@ -1,5 +1,7 @@
 package br.com.alura.forum.hub.domain.topico;
 
+import br.com.alura.forum.hub.domain.curso.Curso;
+import br.com.alura.forum.hub.domain.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -29,11 +31,13 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     private TopicoStatus status;
 
-    @Column(name = "autor_id")
-    private Long autor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id")
+    private Usuario autor;
 
-    @Column(name = "curso_id")
-    private Long curso;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "curso_id")
+    private Curso curso;
 
     public Topico(DadosCadastroTopico dados) {
         this.titulo = dados.titulo();
@@ -41,17 +45,11 @@ public class Topico {
 
         this.dataCriacao = LocalDateTime.now();
         this.status = TopicoStatus.ABERTO;
-
-        this.autor = dados.autor();
-        this.curso = dados.curso();
     }
 
     public void atualizarInformacoes(DadosAtualizacaoTopico dados) {
         this.titulo = dados.titulo();
         this.mensagem = dados.mensagem();
-
-        this.autor = dados.autor();
-        this.curso = dados.curso();
     }
 
     public void excluir() {
