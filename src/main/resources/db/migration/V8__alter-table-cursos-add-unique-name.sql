@@ -1,0 +1,1 @@
+ALTER TABLE `cursos` ADD CONSTRAINT unique_nome UNIQUE(`nome`);

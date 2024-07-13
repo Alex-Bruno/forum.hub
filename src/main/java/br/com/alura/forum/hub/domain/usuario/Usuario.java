@@ -27,6 +27,11 @@ public class Usuario implements UserDetails {
     private String email;
     private String senha;
 
+    public Usuario(DadosCadastroUsuario dados) {
+        this.nome = dados.nome();
+        this.email = dados.email();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -35,6 +40,10 @@ public class Usuario implements UserDetails {
     @Override
     public String getPassword() {
         return this.senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override
@@ -60,5 +69,13 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void atualizarNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void atualizarSenha(String senha) {
+        this.senha = senha;
     }
 }
